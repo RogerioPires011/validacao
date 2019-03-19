@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Cliente;
 
-class ClienteControllador extends Controller
+class ClienteControlador extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,8 +13,9 @@ class ClienteControllador extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    { 
+        $clientes = Cliente::all(); 
+        return view('clientes', compact('clientes'));
     }
 
     /**
@@ -23,7 +25,8 @@ class ClienteControllador extends Controller
      */
     public function create()
     {
-        //
+        return view('novocliente');
+
     }
 
     /**
@@ -34,7 +37,38 @@ class ClienteControllador extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras=[
+           
+        'nome' => 'required|min:3|max:20|unique:clientes',
+        'idade' => 'required',
+        'endereco' => 'required|min:5',
+        'email' => 'required|email'
+        ];
+        $mensagens = [
+          'nome.required'=>'O nome é requerido',
+          'idade.required'=>'A idade é requerida',
+          'endereco.required'=>'O endereco é requerido',
+          'email.required'=>'o email é requerido'
+        ];
+        $request->validate($regras,$mensagens);
+        /*
+        $request->validate([
+        'nome' => 'required|min:3|max:20|unique:clientes',
+        'idade' => 'required',
+        'endereco' => 'required|min:5',
+        'email' => 'required|email'
+
+        ]);
+        */
+
+        $cliente = new Cliente();
+        $cliente->nome = $request->input('nome');
+        $cliente->idade = $request->input('idade');
+        $cliente-> endereco = $request->input('endereco');
+        $cliente->email = $request->input('email');
+        $cliente->save();
+
+        return redirect('/');
     }
 
     /**
