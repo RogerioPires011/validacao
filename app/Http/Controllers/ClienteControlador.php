@@ -48,7 +48,7 @@ class ClienteControlador extends Controller
           'nome.required'=>'O nome é requerido',
           'idade.required'=>'A idade é requerida',
           'endereco.required'=>'O endereco é requerido',
-          'email.required'=>'o email é requerido'
+          'email.required'=>'Digite um endereço de email'
         ];
         $request->validate($regras,$mensagens);
         /*
@@ -108,7 +108,7 @@ class ClienteControlador extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $id   
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
